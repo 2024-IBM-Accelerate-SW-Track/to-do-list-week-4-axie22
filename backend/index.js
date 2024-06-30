@@ -40,3 +40,14 @@ async function addItem(request, response) {
     }
 }
 
+app.get("/tasks", async (req, res) => {
+    try {
+        const data = await fs.readFile("database.json");
+        const tasks = JSON.parse(data);
+        res.json(tasks);
+    } catch (err) {
+        console.log("error: ", err);
+        res.sendStatus(500);
+    }
+});
+

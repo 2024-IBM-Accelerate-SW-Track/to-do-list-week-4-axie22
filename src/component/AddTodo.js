@@ -11,8 +11,20 @@ class AddTodo extends Component {
     this.state = {
       content: "",
       date: "",
-      duedate: null
+      duedate: null,
+      tasks: []
     };
+  }
+
+  componentDidMount() {
+    // Fetch tasks from the server when the component mounts
+    Axios.get("http://localhost:3001/tasks")
+      .then(res => {
+        this.setState({ tasks: res.data });
+      })
+      .catch(err => {
+        console.error("Error fetching tasks:", err);
+      });
   }
   // The handleChange function updates the react state with the new input value provided from the user and the current date/time.
   // "event" is the defined action a user takes. In this case, the event is triggered when the user types something
@@ -102,6 +114,17 @@ class AddTodo extends Component {
         >
           Add
         </Button>
+
+        {/**
+         * Display previous tasks
+         * <ul>
+          {this.state.tasks.map(task => (
+            <li key={task.ID}>
+              {task.Task} (Due: {task.Due_date})
+            </li>
+          ))}
+        </ul>
+         */}
       </div>
     );
   }
